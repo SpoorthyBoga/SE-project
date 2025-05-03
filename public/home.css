@@ -1,0 +1,38 @@
+body{
+    width: auto;
+    display: flex;
+    justify-content: center; /* centers items horizontally */
+    align-items: center; 
+    margin-top: 10%; 
+    
+}
+.category {
+  height: 250px;
+  width: 250px;
+  border: 2px solid black;
+  background-color: rgb(208, 152, 152);
+  margin-left: 70px;
+  margin-right: 70px;
+  margin-bottom: 3px;
+  border-radius: 10%;
+  display: flex;
+  justify-content: center; /* centers items horizontally */
+  align-items: center; 
+  text-decoration: none;
+  color: black;
+}
+
+.category:hover{
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.9);
+  transition: box-shadow 0.3s ease;
+}
+
+form {
+    display: flex;
+    justify-content: center; /* center the buttons horizontally */
+    height: 100vh;
+    width: 100%; /* makes the form span full window width */
+    flex-wrap: wrap;
+  }
+  
