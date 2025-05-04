@@ -1,0 +1,74 @@
+<nav class="bg-white shadow-md">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <div class="flex items-center">
+        <a href="/home" class="text-2xl font-bold text-primary">
+          Telangana Sarees
+        </a>
+      </div>
+      <div class="hidden md:flex items-center space-x-6">
+        <a href="/home" class="text-gray-700 hover:text-primary">Home</a>
+        <a href="/products?category=all" class="text-gray-700 hover:text-primary">Products</a>
+        <a href="/vendors" class="text-gray-700 hover:text-primary">Vendors</a>
+        <a href="/stats" class="text-gray-700 hover:text-primary">Stats</a>
+        <!-- <% if (typeof user !== 'undefined' && user) { %> -->
+          
+          <a href="/add-new" class="text-gray-700 hover:text-primary">Add Product</a>
+          <div class="relative ml-3">
+            <div>
+              <button type="button" class="flex text-sm rounded-full focus:outline-none" id="user-menu-button">
+                <span class="sr-only">Open user menu</span>
+                <img class="h-8 w-8 rounded-full" src="<%= user.profileImageUrl || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80' %>" alt="">
+              </button>
+            </div>
+            <div class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" id="user-menu">
+              <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+              <a href="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+              <a href="/api/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+            </div>
+          </div>
+        <!-- <% } else { %> -->
+          <a href="/login" class="px-4 py-2 rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Sign In</a>
+        <!-- <% } %> -->
+      </div>
+      <div class="md:hidden">
+        <button type="button" class="text-gray-500 hover:text-gray-700 focus:outline-none" id="mobile-menu-button">
+          <span class="sr-only">Open main menu</span>
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mobile menu, show/hide based on menu state -->
+  <div class="hidden md:hidden" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a href="/home" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Home</a>
+      <a href="/products?category=all" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Products</a>
+      <a href="/vendors" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Vendors</a>
+      <% if (typeof user !== 'undefined' && user) { %>
+        <a href="/stats" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Stats</a>
+        <a href="/add-new" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Add Product</a>
+        <a href="/profile" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Your Profile</a>
+        <a href="/settings" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Settings</a>
+        <a href="/api/logout" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Sign out</a>
+      <% } else { %>
+        <a href="/login" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">Sign In</a>
+      <% } %>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Toggle mobile menu
+  document.getElementById('mobile-menu-button')?.addEventListener('click', function() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+  });
+  
+  // Toggle user dropdown menu
+  document.getElementById('user-menu-button')?.addEventListener('click', function() {
+    const menu = document.getElementById('user-menu');
+    menu.classList.toggle('hidden');
+  });
+</script>

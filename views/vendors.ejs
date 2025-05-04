@@ -1,215 +1,185 @@
-<!-- <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Vendors List</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <style>
-    .card:hover {
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendors - Telangana Sarees</title>
+  <link rel="stylesheet" href="/css/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="bg-light">
-  <div class="container mt-5">
-    <h2 class="mb-4">All Vendors</h2>
-    <div class="row">
-      <% vendors.forEach((vendor, index) => { %>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100" onclick="window.location.href='/vendor/<%= vendor._id %>'">
-            <div class="card-body">
-              <h5 class="card-title"><%= vendor.name %></h5>
-              <p class="card-text"><%= vendor.email %></p>
-              <p class="card-text text-muted"><%= vendor.rating|| 'No category specified' %></p>
-            </div>
-            <div class="card-footer bg-white border-top-0">
-              <button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); openDeleteModal('<%= vendor._id %>', '<%= vendor.email %>')">Delete</button>
-            </div>
-          </div>
-        </div>
-      <% }) %>
-    </div>
-  </div>
+<body class="bg-gray-50">
+  <%- include('./partials/navbar') %>
 
-  <!-- Delete Confirmation Modal -->
-  <!-- <div class="modal fade" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog">
-      <form id="deleteForm" method="POST">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Confirm Vendor Deletion</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <p>Are you sure you want to remove this vendor?</p>
-            <div class="mb-3">
-              <label for="reason" class="form-label">Reason for removal:</label>
-              <textarea name="reason" id="reason" class="form-control" required></textarea>
-            </div>
-            <input type="hidden" name="vendorId" id="vendorId">
-            <input type="hidden" name="vendorEmail" id="vendorEmail">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-danger">Delete & Send Email</button>
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Vendors</h1>
+      
+      <div class="flex space-x-4">
+        <div class="relative">
+          <input type="text" id="search-vendors" placeholder="Search vendors..." class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="fas fa-search text-gray-400"></i>
           </div>
         </div>
-      </form>
-    </div>
-  </div> -->
-
-  <!-- Email Sent Toast -->
-  <!-- <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div id="emailToast" class="toast align-items-center text-white bg-success border-0" role="alert">
-      <div class="d-flex">
-        <div class="toast-body">
-          Vendor removed. Email sent successfully!
-        </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        
+        <a href="/add-vendor" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+          <i class="fas fa-plus mr-2"></i> Add Vendor
+        </a>
       </div>
     </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    const emailToast = new bootstrap.Toast(document.getElementById('emailToast'));
-
-    function openDeleteModal(id, email) {
-      document.getElementById('vendorId').value = id;
-      document.getElementById('vendorEmail').value = email;
-      deleteModal.show();
-    }
-
-    document.getElementById('deleteForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const vendorId = document.getElementById('vendorId').value;
-      const reason = document.getElementById('reason').value;
-
-      const response = await fetch(`/vendor/delete/${vendorId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reason })
-      });
-
-      if (response.ok) {
-        deleteModal.hide();
-        emailToast.show();
-        setTimeout(() => location.reload(), 1500);
-      } else {
-        alert("Failed to delete vendor.");
-      }
-    });
-  </script>
-</body>
-</html> --> 
-
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Vendors</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .card:hover {
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body class="bg-light">
-  <div class="container py-5">
-    <h2 class="mb-4">All Vendors</h2>
-    <div class="row">
-      <% vendors.forEach(vendor => { %>
-        <div class="col-md-4 mb-4">
-          <div class="card" onclick="window.location.href='/vendors/<%= vendor._id %>'">
-            <div class="card-body">
-              <h5 class="card-title"><%= vendor.name %> (<%= vendor.vendorId %>)</h5>
-              <p class="card-text">
-                <strong>Area:</strong> <%= vendor.area %><br>
-                <strong>Email:</strong> <%= vendor.email %><br>
-                <strong>Phone:</strong> <%= vendor.phone %><br>
-                <strong>Rating:</strong> <%= vendor.rating %> ⭐<br>
-                <strong>Joined On:</strong> <%= vendor.joinedOn.toDateString() %><br>
-                <strong>Products:</strong> <%= vendor.products.join(', ') %>
-              </p>
-              <button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); showDeleteModal('<%= vendor._id %>', '<%= vendor.email %>')">Remove Vendor</button>
+    
+    <% if (vendors && vendors.length > 0) { %>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <% vendors.forEach(vendor => { %>
+          <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 bg-indigo-100 rounded-md p-3">
+                  <i class="fas fa-user-tie text-indigo-600 text-xl"></i>
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt class="text-sm font-medium text-gray-500 truncate">
+                      <%= vendor.name %>
+                    </dt>
+                    <dd>
+                      <div class="text-lg font-medium text-gray-900">
+                        <%= vendor.area || 'N/A' %>
+                      </div>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              
+              <div class="mt-5">
+                <div class="flex justify-between text-sm text-gray-500">
+                  <div>
+                    <i class="fas fa-envelope mr-1"></i> <%= vendor.email || 'N/A' %>
+                  </div>
+                  <div>
+                    <i class="fas fa-phone mr-1"></i> <%= vendor.phone || 'N/A' %>
+                  </div>
+                </div>
+                
+                <div class="mt-2 flex justify-between text-sm text-gray-500">
+                  <div>
+                    <i class="fas fa-star mr-1 text-yellow-400"></i> <%= vendor.rating || 'N/A' %>
+                  </div>
+                  <div>
+                    <i class="fas fa-calendar mr-1"></i> <%= vendor.joinedOn ? vendor.joinedOn.toDateString() : 'N/A' %>
+                  </div>
+                </div>
+                
+                <% if (vendor.products && vendor.products.length > 0) { %>
+                  <div class="mt-4">
+                    <h4 class="text-xs font-medium text-gray-500 uppercase tracking-wider">Products</h4>
+                    <div class="mt-1 flex flex-wrap gap-2">
+                      <% vendor.products.forEach(product => { %>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                          <%= product %>
+                        </span>
+                      <% }); %>
+                    </div>
+                  </div>
+                <% } %>
+                
+                <div class="mt-5 flex space-x-3">
+                  <a href="/vendors/<%= vendor._id %>" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
+                    View Details
+                  </a>
+                  <button onclick="showDeleteModal('<%= vendor._id %>', '<%= vendor.name %>')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200">
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <div class="text-center py-12">
+        <i class="fas fa-users text-5xl text-gray-400 mb-4"></i>
+        <h3 class="text-xl font-medium text-gray-900">No vendors found</h3>
+        <p class="mt-2 text-gray-500">Start by adding your first vendor.</p>
+        <div class="mt-6">
+          <a href="/add-vendor" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+            <i class="fas fa-plus mr-2"></i> Add New Vendor
+          </a>
         </div>
-      <% }) %>
-    </div>
+      </div>
+    <% } %>
   </div>
 
   <!-- Delete Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog">
-      <form id="deleteForm" method="POST">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Confirm Removal</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <input type="hidden" name="vendorIdToDelete" id="vendorIdToDelete">
-            <input type="hidden" name="vendorEmail" id="vendorEmail">
-            <div class="mb-3">
-              <label for="reason" class="form-label">Reason for removal:</label>
-              <textarea class="form-control" name="reason" id="reason" required></textarea>
+  <div id="deleteModal" class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+              <i class="fas fa-exclamation-triangle text-red-600"></i>
             </div>
-            <p class="text-muted">A confirmation and email will be sent to the vendor.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-danger">Confirm & Remove</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                Delete Vendor
+              </h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500">
+                  Are you sure you want to delete this vendor? All of their data will be permanently removed. This action cannot be undone.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </form>
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <form action="/vendors/delete" method="POST">
+            <input type="hidden" id="vendorIdToDelete" name="vendorId">
+            <input type="hidden" id="vendorName" name="name">
+            <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+              Delete
+            </button>
+          </form>
+          <button type="button" onclick="closeDeleteModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+            Cancel
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Email Sent Alert -->
-  <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="emailSentToast" class="toast text-bg-success" role="alert">
-      <div class="toast-header">
-        <strong class="me-auto">Notification</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-      </div>
-      <div class="toast-body">
-        Email sent to vendor successfully.
-      </div>
-    </div>
-  </div>
+  <%- include('./partials/footer') %>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    function showDeleteModal(vendorId, email) {
-      document.getElementById("vendorIdToDelete").value = vendorId;
-      document.getElementById("vendorEmail").value = email;
-      const modal = new bootstrap.Modal(document.getElementById("deleteModal"));
-      modal.show();
-    }
-
-    document.getElementById("deleteForm").addEventListener("submit", function (e) {
-      e.preventDefault();
+    // Search functionality
+    document.getElementById('search-vendors').addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+      const vendorCards = document.querySelectorAll('.grid > div');
       
-      const formData = new URLSearchParams(new FormData(this));
-
-      fetch(`/vendors/${document.getElementById("vendorIdToDelete").value}/delete`, {
-        method: "POST",
-        body: formData
-      })
-      .then(res => {
-        if (res.ok) {
-          const toast = new bootstrap.Toast(document.getElementById("emailSentToast"));
-          toast.show();
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
+      vendorCards.forEach(card => {
+        const vendorName = card.querySelector('dt').textContent.toLowerCase();
+        const vendorEmail = card.querySelector('.fas.fa-envelope').nextSibling.textContent.toLowerCase();
+        
+        if (vendorName.includes(searchTerm) || vendorEmail.includes(searchTerm)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
         }
       });
     });
+    
+    // Modal functions
+    function showDeleteModal(vendorId, name) {
+      document.getElementById('vendorIdToDelete').value = vendorId;
+      document.getElementById('vendorName').value = name;
+      document.getElementById('deleteModal').classList.remove('hidden');
+    }
+    
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.add('hidden');
+    }
   </script>
 </body>
 </html>
-

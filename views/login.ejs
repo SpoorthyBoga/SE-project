@@ -1,0 +1,35 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/output.css">
+  <script src="https://js.clerk.dev"></script>
+  <script>
+    window.addEventListener('load', async function() {
+      await Clerk.load({
+        publishableKey: 'pk_test_Z3Jvd24ta2lsbGRlZXItODMuY2xlcmsuYWNjb3VudHMuZGV2JA'
+      });
+    });
+  </script>
+</head>
+<body class="bg-gray-50">
+  <div class="container mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-center mb-8">Login</h1>
+    <div id="clerk-sign-in"></div>
+  </div>
+  <script>
+    window.addEventListener("load", function() {
+      // Initialize Clerk with publishable key
+      Clerk.load({ 
+        publishableKey: '<%= process.env.CLERK_PUBLISHABLE_KEY || "pk_test_Z3Jvd24ta2lsbGRlZXItODMuY2xlcmsuYWNjb3VudHMuZGV2JA" %>'
+      });
+      // Mount the sign-in widget into the div with id clerk-sign-in
+      Clerk.mountSignIn({
+        elementId: "clerk-sign-in"
+      });
+    });
+  </script>
+</body>
+</html> -->

@@ -3,92 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= category %> Products</title>
-  <style>
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-    .card {
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      overflow: hidden;
-      text-align: center;
-      transition: transform 0.2s;
-      text-decoration: none;
-      color: inherit;
-      background: #f9f9f9;
-    }
-    .card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    .card-content {
-      padding: 15px;
-    }
-    .toast {
-  visibility: hidden;
-  min-width: 300px;
-  background-color: #27ae60; /* brighter green */
-  color: white;
-  text-align: center;
-  border-radius: 12px;
-  padding: 18px 25px;
-  position: fixed;
-  z-index: 9999;
-  bottom: 40px;
-  right: 40px;
-  font-size: 1.3em;
-  font-weight: bold;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  opacity: 0;
-  transition: opacity 0.4s, visibility 0.4s, transform 0.3s ease;
-  transform: translateY(20px);
-}
-
-.toast.show {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-  </style>
+  <title><%= category.charAt(0).toUpperCase() + category.slice(1) %> Products - Telangana Sarees</title>
+  <link rel="stylesheet" href="/css/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
-  <h1 style="text-align:center;">Products for <%= category %></h1>
+<body class="bg-gray-50">
+  <%- include('./partials/navbar') %>
 
-  <div class="grid">
-    <% products.forEach(product => { %>
-      <a href="/products/<%= product._id %>" class="card">
-        <img src="<%= product.images[0] %>" alt="<%= product.name %>">
-        <div class="card-content">
-          <h3><%= product.name %></h3>
-          <p><%= product.brand %></p>
-          <p><strong>$<%= product.price %></strong></p>
+  <!-- Product Section -->
+  <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">
+        <%= category === 'all' ? 'All Products' : (category.charAt(0).toUpperCase() + category.slice(1) + ' Products') %>
+      </h1>
+      <div class="mt-4 md:mt-0">
+        <select id="category-filter" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+          <option value="all" <%= category === 'all' ? 'selected' : '' %> >All Categories</option>
+          <option value="men" <%= category === 'men' ? 'selected' : '' %> >Men</option>
+          <option value="women" <%= category === 'women' ? 'selected' : '' %> >Women</option>
+          <option value="kids" <%= category === 'kids' ? 'selected' : '' %> >Kids</option>
+        </select>
+      </div>
+    </div>
+
+    <% if (products && products.length > 0) { %>
+      <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        <% products.forEach(product => { %>
+          <div class="group relative">
+            <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+              <!-- Use the first image from the images array -->
+              <img src="<%= product.images[0] %>" alt="<%= product.name %>" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+            </div>
+            <div class="mt-4 flex justify-between">
+              <div>
+                <h3 class="text-sm text-gray-700">
+                  <a href="/products/<%= product._id %>">
+                    <span aria-hidden="true" class="absolute inset-0"></span>
+                    <%= product.name %>
+                  </a>
+                </h3>
+                <!-- Display the brand information -->
+                <p class="mt-1 text-sm text-gray-500"><%= product.brand %></p>
+              </div>
+              <!-- Show the price with the rupee symbol -->
+              <p class="text-sm font-medium text-gray-900">₹<%= product.price %></p>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <div class="text-center py-12">
+        <i class="fas fa-box-open text-5xl text-gray-400 mb-4"></i>
+        <h3 class="text-xl font-medium text-gray-900">No products found</h3>
+        <p class="mt-2 text-gray-500">We couldn’t find any products in this category.</p>
+        <div class="mt-6">
+          <a href="/add-new" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+            <i class="fas fa-plus mr-2"></i> Add New Product
+          </a>
         </div>
-      </a>
-    <% }) %>
+      </div>
+    <% } %>
   </div>
-  <div id="toast" class="toast">Product successfully deleted.</div>
 
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('deleted') === 'true') {
-    const toast = document.getElementById("toast");
-    toast.classList.add("show");
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">Telangana Sarees</h3>
+          <p class="text-gray-400">
+            Authentic handloom sarees from Telangana, showcasing rich cultural heritage and craftsmanship.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="/home" class="text-gray-400 hover:text-white">Home</a></li>
+            <li><a href="/products?category=all" class="text-gray-400 hover:text-white">Products</a></li>
+            <li><a href="/vendors" class="text-gray-400 hover:text-white">Vendors</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Categories</h4>
+          <ul class="space-y-2">
+            <li><a href="/products?category=men" class="text-gray-400 hover:text-white">Men</a></li>
+            <li><a href="/products?category=women" class="text-gray-400 hover:text-white">Women</a></li>
+            <li><a href="/products?category=kids" class="text-gray-400 hover:text-white">Kids</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Contact</h4>
+          <ul class="space-y-2">
+            <li class="flex items-center text-gray-400">
+              <i class="fas fa-envelope mr-2"></i> info@telanganasarees.com
+            </li>
+            <li class="flex items-center text-gray-400">
+              <i class="fas fa-phone mr-2"></i> +91 9876543210
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+        <p>&copy; 2023 Telangana Sarees. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 
-    setTimeout(() => {
-      toast.classList.remove("show");
-    }, 3000); // Hide after 3 seconds
-  }
-</script>
-
+  <script>
+    // Handle the category filter dropdown change event
+    document.getElementById('category-filter').addEventListener('change', function() {
+      window.location.href = '/products?category=' + this.value;
+    });
+  </script>
 </body>
 </html>

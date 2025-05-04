@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Statistics - Telangana Sarees</title>
+  <link rel="stylesheet" href="/css/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50">
+  <%- include('./partials/navbar') %>
+
+  <div class="container-custom py-8">
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold text-gray-900">Order Dashboard</h1>
+      <p class="mt-2 text-sm text-gray-600">Overview of orders, sales, and performance metrics</p>
+    </div>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8 mx-5">
+  <!-- Total Orders Card -->
+  <div class="bg-white overflow-hidden shadow rounded-lg border border-gray-200">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="flex items-center">
+        <div class="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+          <i class="fas fa-shopping-cart text-white"></i>
+        </div>
+        <div class="ml-5 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">
+              Total Orders
+            </dt>
+            <dd>
+              <div class="text-lg font-medium text-gray-900">
+                <%= typeof totalOrders !== 'undefined' ? totalOrders : '245' %>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="flex items-center text-sm text-green-600">
+          <i class="fas fa-arrow-up mr-1.5"></i>
+          <span class="font-medium">8.2%</span>
+          <span class="ml-1">from last month</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delivered Orders Card -->
+  <div class="bg-white overflow-hidden shadow rounded-lg border border-gray-200">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="flex items-center">
+        <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+          <i class="fa-solid fa-check-circle text-white"></i>
+        </div>        
+        <div class="ml-5 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">
+              Delivered Orders
+            </dt>
+            <dd>
+              <div class="text-lg font-medium text-gray-900">
+                <%= typeof deliveredOrders !== 'undefined' ? deliveredOrders : '182' %>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="flex items-center text-sm text-green-600">
+          <i class="fas fa-arrow-up mr-1.5"></i>
+          <span class="font-medium">12.5%</span>
+          <span class="ml-1">from last month</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pending Orders Card -->
+  <div class="bg-white overflow-hidden shadow rounded-lg border border-gray-200">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="flex items-center">
+        <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
+          <i class="fa-solid fa-clock text-white"></i>
+        </div>        
+        <div class="ml-5 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">
+              Pending Orders
+            </dt>
+            <dd>
+              <div class="text-lg font-medium text-gray-900">
+                <%= typeof pendingOrders !== 'undefined' ? pendingOrders : '42' %>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="flex items-center text-sm text-yellow-600">
+          <i class="fas fa-minus mr-1.5"></i>
+          <span class="font-medium">0.5%</span>
+          <span class="ml-1">from last month</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cancelled Orders Card -->
+  <div class="bg-white overflow-hidden shadow rounded-lg border border-gray-200">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="flex items-center">
+        <div class="flex-shrink-0 bg-red-500 rounded-md p-3">
+          <i class="fa-solid fa-times-circle text-white"></i>
+        </div>        
+        <div class="ml-5 flex-1">
+          <dl>
+            <dt class="text-sm font-medium text-gray-500 truncate">
+              Cancelled Orders
+            </dt>
+            <dd>
+              <div class="text-lg font-medium text-gray-900">
+                <%= typeof cancelledOrders !== 'undefined' ? cancelledOrders : '21' %>
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="flex items-center text-sm text-red-600">
+          <i class="fas fa-arrow-down mr-1.5"></i>
+          <span class="font-medium">3.2%</span>
+          <span class="ml-1">from last month</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-8">
+      <!-- Order Status Distribution Chart -->
+      <div class="bg-white overflow-hidden shadow rounded-lg border border-gray-200">
+        <div class="px-4 py-5 sm:p-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Order Status Distribution</h3>
+          <canvas id="pieChart" height="300"></canvas>
+        </div>
+      </div>
+
+      <!-- Order Summary Chart -->
+      <div class="bg-white overflow-hidden shadow rounded-lg border border-gray-200">
+        <div class="px-4 py-5 sm:p-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Order Summary</h3>
+          <canvas id="barChart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Orders Table -->
+    <div class="bg-white shadow rounded-lg border border-gray-200 mb-8">
+      <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Recent Orders
+        </h3>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Order ID
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Buyer
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Items
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Amount
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Status
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Date
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% if (typeof recentOrders !== 'undefined' && recentOrders.length > 0) { %>
+              <% recentOrders.forEach(order => { %>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600">
+                    <%= order._id.toString().slice(-6).toUpperCase() %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900"><%= order.buyer %></div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <%= order.items.length %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ₹<%= order.finalAmount %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <% if (order.orderStatus === 'Delivered') { %>
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        <%= order.orderStatus %>
+                      </span>
+                    <% } else if (order.orderStatus === 'Shipped') { %>
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                        <%= order.orderStatus %>
+                      </span>
+                    <% } else if (order.orderStatus === 'Processing') { %>
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                        <%= order.orderStatus %>
+                      </span>
+                    <% } else if (order.orderStatus === 'Cancelled') { %>
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                        <%= order.orderStatus %>
+                      </span>
+                    <% } else if (order.orderStatus === 'Returned') { %>
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                        <%= order.orderStatus %>
+                      </span>
+                    <% } else { %>
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                        <%= order.orderStatus %>
+                      </span>
+                    <% } %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <%= order.placedAt.toDateString() %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <a href="/orders/<%= order._id %>" class="text-indigo-600 hover:text-indigo-900">View</a>
+                  </td>
+                </tr>
+              <% }); %>
+            <% } else { %>
+              <tr>
+                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">
+                  No recent orders found
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+        <a href="/orders" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+          View all orders <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <%- include('./partials/footer') %>
+
+  <script>
+    // ======= PIE CHART: Order Status Distribution =======
+    const pieData = {
+      labels: ['Placed', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned'],
+      datasets: [{
+        data: <%= typeof pieDataArray !== 'undefined' ? JSON.stringify(pieDataArray) : '[30, 45, 25, 120, 15, 10]' %>,
+        backgroundColor: ['#818CF8', '#FBBF24', '#38BDF8', '#34D399', '#F87171', '#A78BFA']
+      }]
+    };
+
+    const pieConfig = {
+      type: 'pie',
+      data: pieData,
+      options: {
+        responsive: true,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.label + ": " + context.parsed + " orders";
+              }
+            }
+          },
+          legend: {
+            position: 'bottom'
+          }
+        },
+        onClick: function(evt, activeElements) {
+          if (activeElements && activeElements.length > 0) {
+            const index = activeElements[0].index;
+            const status = pieData.labels[index];
+            // Redirect to filter orders by status
+            window.location.href = "/orders/status/" + encodeURIComponent(status);
+          }
+        }
+      }
+    };
+
+    new Chart(document.getElementById('pieChart'), pieConfig);
+
+    // ======= BAR CHART: Order Summary Numbers =======
+    const barData = {
+      labels: ['Total Orders', 'Dispatched Orders', 'Cancelled Orders', 'Delivered Orders'],
+      datasets: [{
+        label: 'Order Count',
+        data: <%= typeof barDataArray !== 'undefined' ? JSON.stringify(barDataArray) : '[245, 70, 21, 182]' %>,
+        backgroundColor: '#818CF8'
+      }]
+    };
+
+    const barConfig = {
+      type: 'bar',
+      data: barData,
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 50
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    };
+
+    new Chart(document.getElementById('barChart'), barConfig);
+  </script>
+</body>
+</html>
