@@ -195,7 +195,7 @@
       
       const formData = new URLSearchParams(new FormData(this));
 
-      fetch(`/vendors/delete`, {
+      fetch(`/vendors/${document.getElementById("vendorIdToDelete").value}/delete`, {
         method: "POST",
         body: formData
       })

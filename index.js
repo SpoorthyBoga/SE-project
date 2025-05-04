@@ -6,6 +6,7 @@ const port=8080;
 const methodOverride = require('method-override');
 const Product=require("./models/product.js");
 const Vendor=require("./models/vendor.js");
+const Order=require("./models/order.js");
 app.use(methodOverride('_method'))
 main().then(()=>{
     console.log("Succesful!");
