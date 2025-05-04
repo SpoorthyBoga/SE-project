@@ -1,11 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= category %> Products</title>
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+      background: #f9f9f9;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 15px;
+    }
+    .toast {
+  visibility: hidden;
+  min-width: 300px;
+  background-color: #27ae60; /* brighter green */
+  color: white;
+  text-align: center;
+  border-radius: 12px;
+  padding: 18px 25px;
+  position: fixed;
+  z-index: 9999;
+  bottom: 40px;
+  right: 40px;
+  font-size: 1.3em;
+  font-weight: bold;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transition: opacity 0.4s, visibility 0.4s, transform 0.3s ease;
+  transform: translateY(20px);
+}
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+  </style>
 </head>
 <body>
-    <h1><%=category%></h1> 
+  <h1 style="text-align:center;">Products for <%= category %></h1>
+
+  <div class="grid">
+    <% products.forEach(product => { %>
+      <a href="/products/<%= product._id %>" class="card">
+        <img src="<%= product.images[0] %>" alt="<%= product.name %>">
+        <div class="card-content">
+          <h3><%= product.name %></h3>
+          <p><%= product.brand %></p>
+          <p><strong>$<%= product.price %></strong></p>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+  <div id="toast" class="toast">Product successfully deleted.</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('deleted') === 'true') {
+    const toast = document.getElementById("toast");
+    toast.classList.add("show");
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3000); // Hide after 3 seconds
+  }
+</script>
+
 </body>
 </html>
