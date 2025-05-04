@@ -158,4 +158,16 @@ app.get("/products", async (req, res) => {
     res.json({ message: "Vendor deleted and email sent." });
   });
   
+
+  app.get("/orders", async (req, res) => {
+    const orders = await Order.find().lean();
+    res.render("orders", { orders });
+  });
+  
+  // Route to display single order details
+  app.get("/orders/:id", async (req, res) => {
+    const order = await Order.findById(req.params.id).lean();
+    if (!order) return res.status(404).send("Order not found");
+    res.render("orderdetail", { order });
+  });
   
