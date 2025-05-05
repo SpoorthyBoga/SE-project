@@ -1,12 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Orders</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     .card:hover {
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
       cursor: pointer;
+    }
+
+    /* Card Styling */
+    .card {
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      border: 1px solid #ddd;
+      background-color: #fff;
+    }
+
+    /* Card Header */
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    /* Card Body Text */
+    .card-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Custom Background for Cards */
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    /* Order Status Colors */
+    .status-pending {
+      color: #ff9800;
+      font-weight: bold;
+    }
+
+    .status-completed {
+      color: #4caf50;
+      font-weight: bold;
+    }
+
+    .status-canceled {
+      color: #f44336;
+      font-weight: bold;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+    }
+
+    /* Header Styling */
+    h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #343a40;
+    }
+
+    /* Spacer */
+    .mb-4 {
+      margin-bottom: 1.5rem;
     }
   </style>
 </head>
@@ -24,7 +84,11 @@
                 <strong>Vendor:</strong> <%= order.vendor %><br>
                 <strong>Total Items:</strong> <%= order.items.length %><br>
                 <strong>Final Amount:</strong> ₹<%= order.finalAmount %><br>
-                <strong>Status:</strong> <%= order.orderStatus %><br>
+
+                <strong>Status:</strong>
+                <span class="<%= order.orderStatus === 'Pending' ? 'status-pending' : order.orderStatus === 'Completed' ? 'status-completed' : 'status-canceled' %>">
+                  <%= order.orderStatus %>
+                </span><br>
                 <strong>Placed:</strong> <%= order.placedAt.toDateString() %>
               </p>
             </div>
