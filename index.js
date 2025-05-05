@@ -96,9 +96,23 @@ async function computeBarData() {
 //   }
 // ];
 
-// Routes that don't require authentication
+
+app.get("/login", (req,res)=>{
+  res.render("login.ejs");
+})
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  // Replace this with real user validation logic
+  if (email === "admin@example.com" && password === "123456") {
+    res.redirect("/home");
+  } else {
+    res.send("Invalid credentials");
+  }
+});
+
 app.get('/', (req, res) => {
-  res.redirect('/home');
+  res.redirect('/login');
 });
 
 app.get('/home', (req, res) => {
@@ -160,13 +174,35 @@ app.post("/vendors/:id/update", async (req, res) => {
 
 app.post("/vendors/:id/delete", async (req, res) => {
   const { reason } = req.body;
-  // logic to send email to vendor
   await Vendor.findByIdAndDelete(req.params.id);
   res.json({ message: "Vendor deleted and email sent." });
 });
 
 app.get('/add-vendor', (req, res) => {
-  res.render('add_vendor');
+  res.render('add_vendors.ejs');
+});
+
+app.post('/vendors/add', async (req, res) => {
+  try {
+    const { vendorId, name, area, products, email, phone, rating, joinedOn } = req.body;
+
+    const newVendor = new Vendor({
+      vendorId,
+      name,
+      area,
+      products: products.split(',').map(p => p.trim()), // Convert CSV to array
+      email,
+      phone,
+      rating: parseFloat(rating),
+      joinedOn: new Date(joinedOn)
+    });
+
+    await newVendor.save();
+    res.redirect('/vendors'); // or wherever your vendor list/dashboard is
+  } catch (err) {
+    console.error('Error adding vendor:', err);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 app.get('/add-new', (req, res) => {

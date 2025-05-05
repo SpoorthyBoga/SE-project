@@ -8,9 +8,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="bg-gray-50">
-  <%- include('./partials/navbar') %>
+  <%- include('./partials/navbar') %> 
 
-  <!-- Main Content -->
   <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center mb-8">
       <h1 class="text-3xl font-bold text-gray-900">Vendors</h1>
@@ -112,43 +111,49 @@
   </div>
 
   <!-- Delete Modal -->
-  <div id="deleteModal" class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-          <div class="sm:flex sm:items-start">
-            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-              <i class="fas fa-exclamation-triangle text-red-600"></i>
-            </div>
-            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-              <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                Delete Vendor
-              </h3>
+<div id="deleteModal" class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+            <i class="fas fa-exclamation-triangle text-red-600"></i>
+          </div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+              Delete Vendor
+            </h3>
+            <div class="mt-2">
+              <p class="text-sm text-gray-500">
+                Are you sure you want to delete this vendor? All of their data will be permanently removed. This action cannot be undone.
+              </p>
               <div class="mt-2">
-                <p class="text-sm text-gray-500">
-                  Are you sure you want to delete this vendor? All of their data will be permanently removed. This action cannot be undone.
-                </p>
+                <label for="deleteReason" class="block text-sm font-medium text-gray-700">Reason (optional):</label>
+                <textarea id="deleteReason" name="reason" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
               </div>
             </div>
           </div>
         </div>
-        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <form action="/vendors/delete" method="POST">
-            <input type="hidden" id="vendorIdToDelete" name="vendorId">
-            <input type="hidden" id="vendorName" name="name">
-            <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-              Delete
-            </button>
-          </form>
-          <button type="button" onclick="closeDeleteModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-            Cancel
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <!-- Delete Form -->
+        <form id="deleteVendorForm" method="POST" class="sm:ml-3 sm:w-auto">
+          <input type="hidden" id="vendorIdToDelete" name="vendorId">
+          <input type="hidden" id="vendorName" name="name">
+          <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm">
+            Delete
           </button>
-        </div>
+        </form>
+        <button type="button" onclick="closeDeleteModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cancel
+        </button>
       </div>
     </div>
   </div>
+</div>
+
 
   <%- include('./partials/footer') %>
 
@@ -175,11 +180,59 @@
       document.getElementById('vendorIdToDelete').value = vendorId;
       document.getElementById('vendorName').value = name;
       document.getElementById('deleteModal').classList.remove('hidden');
+      form.action = `/vendors/${vendorId}/delete`;
     }
     
     function closeDeleteModal() {
       document.getElementById('deleteModal').classList.add('hidden');
     }
+
+    // Function to show the delete modal and set the form action
+function showDeleteModal(vendorId, name) {
+  document.getElementById('vendorIdToDelete').value = vendorId;
+  document.getElementById('vendorName').value = name;
+  // Set the form action based on the vendorId
+  document.getElementById('deleteVendorForm').action = `/vendors/${vendorId}/delete`;
+  document.getElementById('deleteModal').classList.remove('hidden');
+}
+
+// Function to close the delete modal
+function closeDeleteModal() {
+  document.getElementById('deleteModal').classList.add('hidden');
+}
+
+// Attach submit event handler to deleteVendorForm
+document.getElementById('deleteVendorForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const url = this.action;
+  // Construct an object from the form fields
+  const formData = new FormData(this);
+  const formObj = {};
+  formData.forEach((value, key) => {
+    formObj[key] = value;
+  });
+  
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formObj)
+    });
+    
+    if (response.ok) {
+      closeDeleteModal();
+      // Optionally, reload the page after a brief delay
+      setTimeout(() => location.reload(), 1500);
+    } else {
+      alert("Failed to delete vendor.");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("An error occurred. Please try again.");
+  }
+});
+
   </script>
 </body>
 </html>

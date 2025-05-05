@@ -5,8 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Statistics - Telangana Sarees</title>
   <link rel="stylesheet" href="/css/output.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pOScJ7fF2z3SewKYujJyhNfxLw9abXpcPLdZaMCnAakEXjW0rRSh7sbl0bAyaPWYLNbVY6wz5iRDXoOhK0Wjig==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .fa, .fas, .fa-solid {
+      font-family: "Font Awesome 6 Free" !important;
+      font-weight: 900;
+    }
+  </style>
 </head>
 <body class="bg-gray-50">
   <%- include('./partials/navbar') %>
@@ -24,7 +32,7 @@
     <div class="px-4 py-5 sm:p-6">
       <div class="flex items-center">
         <div class="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-          <i class="fas fa-shopping-cart text-white"></i>
+          <i class="fa-solid fa-cart-shopping text-white"></i>
         </div>
         <div class="ml-5 flex-1">
           <dl>
@@ -142,23 +150,24 @@
 
 
     <!-- Charts Section -->
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-8 px-5">
       <!-- Order Status Distribution Chart -->
-      <div class="bg-white overflow-hidden shadow rounded-lg border border-gray-200">
-        <div class="px-4 py-5 sm:p-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Order Status Distribution</h3>
-          <canvas id="pieChart" height="300"></canvas>
+      <div class="bg-white shadow rounded-lg border border-gray-200 p-4">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Order Status Distribution</h3>
+        <div class="relative" style="height: 300px;">
+          <canvas id="pieChart" class="w-full h-full"></canvas>
         </div>
       </div>
 
       <!-- Order Summary Chart -->
-      <div class="bg-white overflow-hidden shadow rounded-lg border border-gray-200">
-        <div class="px-4 py-5 sm:p-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Order Summary</h3>
-          <canvas id="barChart" height="300"></canvas>
+      <div class="bg-white shadow rounded-lg border border-gray-200 p-4">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Order Summary</h3>
+        <div class="relative" style="height: 300px;">
+          <canvas id="barChart" class="w-full h-full"></canvas>
         </div>
       </div>
     </div>
+
 
     <!-- Recent Orders Table -->
     <div class="bg-white shadow rounded-lg border border-gray-200 mb-8">
