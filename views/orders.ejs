@@ -6,7 +6,6 @@
   <title>Orders</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    /* Custom Hover Effect for Cards */
     .card:hover {
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
       cursor: pointer;
@@ -85,6 +84,7 @@
                 <strong>Vendor:</strong> <%= order.vendor %><br>
                 <strong>Total Items:</strong> <%= order.items.length %><br>
                 <strong>Final Amount:</strong> ₹<%= order.finalAmount %><br>
+
                 <strong>Status:</strong>
                 <span class="<%= order.orderStatus === 'Pending' ? 'status-pending' : order.orderStatus === 'Completed' ? 'status-completed' : 'status-canceled' %>">
                   <%= order.orderStatus %>
